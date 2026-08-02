@@ -8,5 +8,6 @@ I am Arnaud Deza, a PhD student in Machine Learning at Georgia Tech (AI4OPT). I 
 - ML for decision-making
 
 ## Links
+- Google Scholar: https://scholar.google.com/citations?user=Lg-EG54AAAAJ&hl=en
 - Website: https://arnauddeza.github.io/
 - Email: adeza3@gatech.edu
