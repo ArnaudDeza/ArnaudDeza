@@ -1,0 +1,47 @@
+name: Koi
+
+on:
+  schedule:
+    # Refresh after midnight UTC using the previous day's public activity.
+    - cron: "20 0 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/koi.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: koi
+  cancel-in-progress: false
+
+jobs:
+  koi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the profile
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+
+      - name: Generate Arnaud's koi
+        uses: yalongwastaken/git-koi@7305e9b1fadee6f43d3b4fa543a25d4cde79856e # v1.0.2
+        with:
+          login: ArnaudDeza
+          body: white
+          output-dir: koi
+
+      - name: Commit the koi if it changed
+        shell: bash
+        run: |
+          git add koi/koi.gif
+          if git diff --cached --quiet; then
+            echo "The koi is unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --message "koi: update"
+          git push
